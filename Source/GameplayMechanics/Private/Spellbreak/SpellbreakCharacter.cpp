@@ -53,6 +53,19 @@ void ASpellbreakCharacter::MoveRight(float Value)
 	AddMovementInput(RightVector,Value);
 }
 
+void ASpellbreakCharacter::PrimaryAttack()
+{
+	
+	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+	
+	FTransform SpawnTM = FTransform(GetControlRotation(), HandLocation);
+
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	
+	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
+}
+
 // Called every frame
 void ASpellbreakCharacter::Tick(float DeltaTime)
 {
@@ -70,5 +83,7 @@ void ASpellbreakCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 
 	PlayerInputComponent->BindAxis("Turn",this,&APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp",this,&APawn::AddControllerPitchInput);
+
+	PlayerInputComponent->BindAction("Shoot",IE_Pressed,this,&ASpellbreakCharacter::PrimaryAttack);
 }
 
