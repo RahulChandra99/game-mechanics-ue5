@@ -14,7 +14,7 @@ All projects were developed using Unreal Engine with a mix of Blueprints and C++
 - [Horror Game Mechanics](#mechanic-7-horror-game-mechanics)
 - [AI Game Mechanics](#mechanic-8-ai-game-mechanics)
 - [UE Multiplayer Plugin](#mechanic-9-ue-multiplayer-plugin)
-- [Procedural Dungeon Series (Unity + Unreal)](#mechanic-10-procedural-dungeon-series-unity--unreal)
+- [Procedural Dungeon Series](#mechanic-10-procedural-dungeon-series-unity--unreal)
 - [Tekken Like Fighting](#mechanic-11-tekken-like-fighting)
 - [Turn-Based Hitman Go](#mechanic-12-turn-based-hitman-go)
 - [Hitman Sniper (with UI) + UE User Interface](#mechanic-13-hitman-sniper-with-ui--ue-user-interface)
@@ -48,7 +48,7 @@ A framework for AI behavior in games, including patrol routes, enemy vision cone
 ## Mechanic 9: UE Multiplayer Plugin
 A multiplayer system integrated into Unreal Engine, allowing for cooperative or competitive play. This plugin supports player matchmaking, lobbies, and in-game synchronization, enabling both peer-to-peer and server-based multiplayer experiences.
 
-## Mechanic 10: Procedural Dungeon Series (Unity + Unreal)
+## Mechanic 10: Procedural Dungeon Series
 A hybrid project using both Unity and Unreal to create procedural dungeons. This system generates random levels, complete with enemies, loot, and traps, offering high replayability for dungeon crawler games.
 
 ## Mechanic 11: Tekken Like Fighting
