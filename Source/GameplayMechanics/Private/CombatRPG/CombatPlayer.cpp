@@ -13,13 +13,13 @@ ACombatPlayer::ACombatPlayer()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("SpringArmComp");
+	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("CameraBoom");
 	SpringArmComponent->bUsePawnControlRotation = true;
 	SpringArmComponent->SetupAttachment(RootComponent);
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	
-	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComp");
+	CameraComponent = CreateDefaultSubobject<UCameraComponent>("FollowCamera");
 	CameraComponent->SetupAttachment(SpringArmComponent);
 	
 	bUseControllerRotationYaw = false;
