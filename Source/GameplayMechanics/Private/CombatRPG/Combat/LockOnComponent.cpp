@@ -3,6 +3,7 @@
 
 #include "CombatRPG/Combat/LockOnComponent.h"
 #include "DrawDebugHelpers.h"
+#include "CombatRPG/Interfaces/Enemy.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -43,11 +44,23 @@ void ULockOnComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	FVector CurrentLocation { OwnerRef->GetActorLocation() };
 	FVector TargetLocation { CurrentTargetActor->GetActorLocation() };
 
+	double TargetDistance {
+		FVector::Distance(CurrentLocation, TargetLocation)
+	};
+
+	if(TargetDistance >= BreakDistance)
+	{
+		EndLockOn();
+		return;
+	}
+	
 	TargetLocation.Z -= 125;
 	
 	FRotator NewRotation { UKismetMathLibrary::FindLookAtRotation(CurrentLocation,TargetLocation) } ;
 
 	Controller->SetControlRotation(NewRotation);
+
+	
 	
 }
 
@@ -75,6 +88,9 @@ void ULockOnComponent::StartLockOn(float Radius)
 	
 	if(!bHasFoundTarget) { return; }
 
+	//validation of enemy interface
+	if (!OutResult.GetActor()->Implements<UEnemy>()) { return;}
+
 	CurrentTargetActor = OutResult.GetActor();
 	
 	Controller->SetIgnoreLookInput(true);
@@ -82,11 +98,15 @@ void ULockOnComponent::StartLockOn(float Radius)
 	MovementComponent->bUseControllerDesiredRotation = true;
 
 	SpringArmComp->TargetOffset = FVector { 0.f,0.f,100.f};
+
+	IEnemy::Execute_OnSelect(CurrentTargetActor);
 	
 }
 
 void ULockOnComponent::EndLockOn()
 {
+	IEnemy::Execute_OnDeselect(CurrentTargetActor);
+	
 	CurrentTargetActor = nullptr;
 	
 	MovementComponent->bOrientRotationToMovement = true;
@@ -94,5 +114,7 @@ void ULockOnComponent::EndLockOn()
 	SpringArmComp->TargetOffset = FVector::ZeroVector;
 	
 	Controller->ResetIgnoreLookInput();
+	
+	bisLockedOn = false;
 }
 

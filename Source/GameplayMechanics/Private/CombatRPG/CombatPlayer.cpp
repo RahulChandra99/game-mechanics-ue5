@@ -91,17 +91,20 @@ void ACombatPlayer::HandleLockOn()
 {
 	if(LockOnComponent)
 	{
-		if(!bisLockedOn)
+		bool bisLockedOnLocal = LockOnComponent->bisLockedOn;
+		
+		if(!bisLockedOnLocal)
 		{
 			LockOnComponent->StartLockOn();
-			bisLockedOn = true;
+			bisLockedOnLocal = true;
 		}
-		else if (bisLockedOn)
+		else if (bisLockedOnLocal)
 		{
 			LockOnComponent->EndLockOn();
-			bisLockedOn = false;
+			bisLockedOnLocal = false;
 		}
-			
+
+		LockOnComponent->bisLockedOn = bisLockedOnLocal;
 	}
 }
 

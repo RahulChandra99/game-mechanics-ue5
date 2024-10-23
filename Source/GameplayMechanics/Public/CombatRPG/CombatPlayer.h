@@ -4,12 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "CombatRPG/Interfaces/MainPlayer.h"
 #include "CombatPlayer.generated.h"
 
 
 
 UCLASS()
-class GAMEPLAYMECHANICS_API ACombatPlayer : public ACharacter
+class GAMEPLAYMECHANICS_API ACombatPlayer : public ACharacter, public IMainPlayer
 {
 	GENERATED_BODY()
 
@@ -49,7 +50,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
 	class ULockOnComponent* LockOnComponent;
 
-	bool bisLockedOn;
+	
 	
 	
 public:
@@ -62,5 +63,5 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-
+	
 };

@@ -39,11 +39,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void EndLockOn();
 
-	
+	UPROPERTY(EditAnywhere)
+	double BreakDistance { 1000.0 };
 
 	AActor* CurrentTargetActor;
 
 	class USpringArmComponent* SpringArmComp;
 	
-		
+	bool bisLockedOn;
 };
