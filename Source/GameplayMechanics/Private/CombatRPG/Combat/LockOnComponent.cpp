@@ -2,6 +2,11 @@
 
 
 #include "CombatRPG/Combat/LockOnComponent.h"
+#include "DrawDebugHelpers.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values for this component's properties
 ULockOnComponent::ULockOnComponent()
@@ -19,19 +24,42 @@ void ULockOnComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	OwnerRef = GetOwner<ACharacter>();
+	Controller = GetWorld()->GetFirstPlayerController();
+	MovementComponent = OwnerRef->GetCharacterMovement();
+
+	SpringArmComp = OwnerRef->FindComponentByClass<USpringArmComponent>();
+	
+}
+
+
+// Called every frame
+void ULockOnComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if(!IsValid(CurrentTargetActor)) { return; }
+
+	FVector CurrentLocation { OwnerRef->GetActorLocation() };
+	FVector TargetLocation { CurrentTargetActor->GetActorLocation() };
+
+	TargetLocation.Z -= 125;
+	
+	FRotator NewRotation { UKismetMathLibrary::FindLookAtRotation(CurrentLocation,TargetLocation) } ;
+
+	Controller->SetControlRotation(NewRotation);
 	
 }
 
 void ULockOnComponent::StartLockOn(float Radius)
 {
 	FHitResult OutResult;
-	FVector CurrentLocation{ GetOwner()->GetActorLocation() };
+	FVector CurrentLocation{ OwnerRef->GetActorLocation() };
 	FCollisionShape Sphere { FCollisionShape::MakeSphere(Radius)};
 	FCollisionQueryParams IgnoreParams{
 		FName { TEXT("Ignore Collision Params")},
 		false,
-		GetOwner()
+		OwnerRef
 	};
 	
 	
@@ -44,20 +72,27 @@ void ULockOnComponent::StartLockOn(float Radius)
 	Sphere,
 	IgnoreParams
 	)};
-
-	if(!bHasFoundTarget)
-		return;
 	
-	UE_LOG(LogTemp, Warning, TEXT("Actor Detected %s"),
-		*OutResult.GetActor()->GetName());
+	if(!bHasFoundTarget) { return; }
+
+	CurrentTargetActor = OutResult.GetActor();
+	
+	Controller->SetIgnoreLookInput(true);
+	MovementComponent->bOrientRotationToMovement = false;
+	MovementComponent->bUseControllerDesiredRotation = true;
+
+	SpringArmComp->TargetOffset = FVector { 0.f,0.f,100.f};
+	
 }
 
-
-// Called every frame
-void ULockOnComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void ULockOnComponent::EndLockOn()
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
+	CurrentTargetActor = nullptr;
+	
+	MovementComponent->bOrientRotationToMovement = true;
+	MovementComponent->bUseControllerDesiredRotation = false;
+	SpringArmComp->TargetOffset = FVector::ZeroVector;
+	
+	Controller->ResetIgnoreLookInput();
 }
 

@@ -49,7 +49,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
 	class ULockOnComponent* LockOnComponent;
 
-	
+	bool bisLockedOn;
 	
 	
 public:

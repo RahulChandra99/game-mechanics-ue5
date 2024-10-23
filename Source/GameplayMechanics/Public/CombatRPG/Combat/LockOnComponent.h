@@ -13,6 +13,14 @@ class GAMEPLAYMECHANICS_API ULockOnComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+private:
+
+	ACharacter* OwnerRef;
+
+	APlayerController* Controller;
+
+	class UCharacterMovementComponent* MovementComponent;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -27,6 +35,15 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void StartLockOn(float Radius = 750.f);
+
+	UFUNCTION(BlueprintCallable)
+	void EndLockOn();
+
+	
+
+	AActor* CurrentTargetActor;
+
+	class USpringArmComponent* SpringArmComp;
 	
 		
 };
