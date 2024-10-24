@@ -3,7 +3,7 @@
 
 #include "CombatRPG/Animations/CombatPlayerAnimInstance.h"
 
-void UCombatPlayerAnimInstance::SetCurrentVelocity()
+void UCombatPlayerAnimInstance::UpdateSpeed()
 {
 	APawn* PawnRef { TryGetPawnOwner() };
 
@@ -11,5 +11,26 @@ void UCombatPlayerAnimInstance::SetCurrentVelocity()
 
 	FVector Velocity { PawnRef->GetVelocity() };
 
-	CurrentVelocity = static_cast<float>(Velocity.Length());
+	CurrentSpeed = static_cast<float>(Velocity.Length());
 }
+
+void UCombatPlayerAnimInstance::HandleUpdatedTarget(AActor* NewTargetActoRefr)
+{
+	bIsInCombat = IsValid(NewTargetActoRefr);
+	
+}
+
+void UCombatPlayerAnimInstance::UpdateDirection()
+{
+	APawn* PawnRef{ TryGetPawnOwner() };
+
+	if(!IsValid(PawnRef)) { return;}
+
+	if (!bIsInCombat) { return; }
+
+	CurrentDirection = CalculateDirection(
+		PawnRef->GetVelocity(),
+		PawnRef->GetActorRotation()
+	);
+}
+

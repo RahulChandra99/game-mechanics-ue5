@@ -6,7 +6,11 @@
 #include "Components/ActorComponent.h"
 #include "LockOnComponent.generated.h"
 
-
+DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_OneParam(
+	FOnUpdatedTargetSignature,
+	ULockOnComponent, OnUpdatedTargetDelegate,
+	AActor*, NewTargetActorRef
+);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class GAMEPLAYMECHANICS_API ULockOnComponent : public UActorComponent
@@ -47,4 +51,7 @@ public:
 	class USpringArmComponent* SpringArmComp;
 	
 	bool bisLockedOn;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnUpdatedTargetSignature OnUpdatedTargetDelegate;
 };

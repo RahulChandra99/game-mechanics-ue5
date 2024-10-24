@@ -12,6 +12,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
 #include "InputAction.h"
+#include "CombatRPG/Animations/CombatPlayerAnimInstance.h"
 #include "CombatRPG/Combat/LockOnComponent.h"
 
 
@@ -56,7 +57,7 @@ void ACombatPlayer::BeginPlay()
 		}
 	}
 
-	
+	PlayerAnim = Cast<UCombatPlayerAnimInstance>(GetMesh()->GetAnimInstance());
 	
 }
 

@@ -16,8 +16,21 @@ class GAMEPLAYMECHANICS_API UCombatPlayerAnimInstance : public UAnimInstance
 
 protected:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float CurrentVelocity {0.0f};
+	float CurrentSpeed {0.0f};
 
 	UFUNCTION(BlueprintCallable)
-	void SetCurrentVelocity();
+	void UpdateSpeed();
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool bIsInCombat { false };
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float CurrentDirection { 0.0f };
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void HandleUpdatedTarget(AActor* NewTargetActor);
+	
+	UFUNCTION(BlueprintCallable)
+	void UpdateDirection();
 };

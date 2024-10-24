@@ -50,7 +50,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
 	class ULockOnComponent* LockOnComponent;
 
-	
+	UPROPERTY(BlueprintReadOnly)
+	class UCombatPlayerAnimInstance* PlayerAnim;
 	
 	
 public:

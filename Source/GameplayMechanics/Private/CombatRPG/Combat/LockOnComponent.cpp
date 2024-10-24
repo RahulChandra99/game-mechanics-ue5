@@ -100,7 +100,9 @@ void ULockOnComponent::StartLockOn(float Radius)
 	SpringArmComp->TargetOffset = FVector { 0.f,0.f,100.f};
 
 	IEnemy::Execute_OnSelect(CurrentTargetActor);
-	
+
+	//calling the event
+	OnUpdatedTargetDelegate.Broadcast(CurrentTargetActor);
 }
 
 void ULockOnComponent::EndLockOn()
@@ -116,5 +118,8 @@ void ULockOnComponent::EndLockOn()
 	Controller->ResetIgnoreLookInput();
 	
 	bisLockedOn = false;
+
+	//calling the event
+	OnUpdatedTargetDelegate.Broadcast(CurrentTargetActor);
 }
 
