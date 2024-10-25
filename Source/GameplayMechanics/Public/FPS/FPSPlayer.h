@@ -13,17 +13,19 @@ class GAMEPLAYMECHANICS_API AFPSPlayer : public ACharacter
 	
 private:
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "FPS Character", meta = (AllowPrivateAccess = "True"))
-	class UCameraComponent* CameraComp;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "FPS Character", meta = (AllowPrivateAccess = "True"))
-	USkeletalMeshComponent* MeshFP;
-
 	float DefaultWalkSpeed;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+
+	/** Pawn mesh: 1st person view  */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "FPS Character")
+	USkeletalMeshComponent* MeshFP;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "FPS Character")
+	class UCameraComponent* CameraComp;
 
 public:
 	
@@ -35,10 +37,13 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetCameraComponent() { return CameraComp ;}
 
+	/** Returns Mesh1P subobject **/
 	USkeletalMeshComponent* GetMeshFP() { return MeshFP ;}
-
+	
+	
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	void MoveUp(float Value);
@@ -59,6 +64,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "FPS Character")
 	float MaxSprintSpeed = 900.f;
 	
-	
+	UPROPERTY(BlueprintReadOnly, Category="Gameplay")
+	bool bIsCarryingObjective;
 	
 };

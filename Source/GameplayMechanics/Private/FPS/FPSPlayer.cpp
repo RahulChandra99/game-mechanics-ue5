@@ -3,6 +3,8 @@
 
 #include "FPS/FPSPlayer.h"
 
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -12,8 +14,10 @@ AFPSPlayer::AFPSPlayer()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("FPSCamera"));
+	// Create a CameraComponent	
+	CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	CameraComp->SetupAttachment(GetRootComponent());
+	CameraComp->SetRelativeLocation(FVector(0, 0, BaseEyeHeight)); // Position the camera
 	CameraComp->bUsePawnControlRotation = true;
 	
 	MeshFP = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("MeshFP"));
@@ -22,11 +26,11 @@ AFPSPlayer::AFPSPlayer()
 	MeshFP->SetOwnerNoSee(false);
 	MeshFP->SetCastShadow(false);
 	MeshFP->SetReceivesDecals(false);
+	MeshFP->SetRelativeRotation(FRotator(2.0f, -15.0f, 5.0f));
+	MeshFP->SetRelativeLocation(FVector(0, 0, -160.0f));
 
 	GetMesh()->SetOnlyOwnerSee(false);
 	GetMesh()->SetOwnerNoSee(true);
-
-	
 
 	
 }
@@ -63,8 +67,9 @@ void AFPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	PlayerInputComponent->BindAction(TEXT("Jump"),IE_Released,this,&ACharacter::StopJumping);
 	PlayerInputComponent->BindAction(TEXT("Sprint"),IE_Pressed,this,&AFPSPlayer::StartSprint);
 	PlayerInputComponent->BindAction(TEXT("Sprint"),IE_Released,this,&AFPSPlayer::StopSprint);
-
+	
 }
+
 
 void AFPSPlayer::MoveForward(float Value)
 {
