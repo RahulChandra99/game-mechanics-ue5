@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "SCharacter.generated.h"
 
+class ASWeapon;
+
 UCLASS()
 class GAMEPLAYMECHANICS_API ASCharacter : public ACharacter
 {
@@ -28,8 +30,12 @@ protected:
 
 	void BeginCrouch();
 	void EndCrouch();
+	
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<ASWeapon> WeaponClass;
 
-
+	UPROPERTY()
+	ASWeapon* Weapon;
 	
 
 public:

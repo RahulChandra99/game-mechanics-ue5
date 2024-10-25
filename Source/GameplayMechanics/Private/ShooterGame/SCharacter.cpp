@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "ShooterGame/SWeapon.h"
 
 // Sets default values
 ASCharacter::ASCharacter()
@@ -25,14 +26,15 @@ ASCharacter::ASCharacter()
 	bUseControllerRotationYaw = false;
 
 	GetCharacterMovement()->GetNavAgentPropertiesRef().bCanCrouch = true; //enable crouching
-
+	
 }
 
 // Called when the game starts or when spawned
 void ASCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	Weapon = GetWorld()->SpawnActor<ASWeapon>(WeaponClass);
 }
 
 // Called every frame
