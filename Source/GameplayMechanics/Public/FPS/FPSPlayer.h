@@ -19,6 +19,8 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "FPS Character", meta = (AllowPrivateAccess = "True"))
 	USkeletalMeshComponent* MeshFP;
 
+	float DefaultWalkSpeed;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -37,4 +39,26 @@ public:
 
 	USkeletalMeshComponent* GetMeshFP() { return MeshFP ;}
 
+	void MoveForward(float Value);
+	void MoveRight(float Value);
+	void MoveUp(float Value);
+	void Turn(float Value);
+	void TurnRate(float Value);
+	void LookUp(float Value);
+	void LookUpRate(float Value);
+
+	void StartSprint();
+	void StopSprint();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "FPS Character")
+	float BaseTurnRate = 45.0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "FPS Character")
+	float BaseLookRate = 45.0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "FPS Character")
+	float MaxSprintSpeed = 900.f;
+	
+	
+	
 };
