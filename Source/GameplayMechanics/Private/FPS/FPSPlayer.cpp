@@ -3,12 +3,23 @@
 
 #include "FPS/FPSPlayer.h"
 
+#include "Camera/CameraComponent.h"
+
 // Sets default values
 AFPSPlayer::AFPSPlayer()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("FPSCamera"));
+	CameraComp->SetupAttachment(GetRootComponent());
+	
+	MeshFP = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("MeshFP"));
+	MeshFP->SetupAttachment(CameraComp);
+	MeshFP->SetOnlyOwnerSee(true);
+	MeshFP->SetOwnerNoSee(false);
+	MeshFP->SetCastShadow(false);
+	MeshFP->SetReceivesDecals(false);
 }
 
 // Called when the game starts or when spawned
