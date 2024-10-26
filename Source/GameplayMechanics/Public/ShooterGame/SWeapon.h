@@ -17,15 +17,22 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	class UStaticMeshComponent* MeshComponent;
+	class USkeletalMeshComponent* MeshComponent;
 
-	
+	USceneComponent* SceneComp;
 
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* MuzzleFlash;
+
+	UPROPERTY(EditAnywhere)
+	float MaxRange = 10.f;
 public:
 	// Sets default values for this actor's properties
 	ASWeapon();
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void PullTrigger();
 
 };

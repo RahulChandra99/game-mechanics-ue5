@@ -65,6 +65,9 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	PlayerInputComponent->BindAction("Jump",IE_Pressed,this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump",IE_Released,this, &ACharacter::Jump);
+
+	PlayerInputComponent->BindAction("Shoot",IE_Pressed,this, &ASCharacter::StartShootingGun);
+
 	
 }
 
@@ -96,5 +99,10 @@ void ASCharacter::BeginCrouch()
 void ASCharacter::EndCrouch()
 {
 	UnCrouch();
+}
+
+void ASCharacter::StartShootingGun()
+{
+	Weapon->PullTrigger();
 }
 

@@ -30,6 +30,8 @@ protected:
 
 	void BeginCrouch();
 	void EndCrouch();
+
+	void StartShootingGun();
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ASWeapon> WeaponClass;
