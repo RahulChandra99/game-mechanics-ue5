@@ -35,6 +35,11 @@ void ASCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	Weapon = GetWorld()->SpawnActor<ASWeapon>(WeaponClass);
+
+	//hide skeleton gun
+	GetMesh()->HideBoneByName(TEXT("weapon"),PBO_None);
+	Weapon->AttachToComponent(GetMesh(),FAttachmentTransformRules::KeepRelativeTransform, TEXT("weaponSocket"));
+	Weapon->SetOwner(this);
 }
 
 // Called every frame
