@@ -52,6 +52,8 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly)
 	class UCombatPlayerAnimInstance* PlayerAnim;
+
+	
 	
 	
 public:

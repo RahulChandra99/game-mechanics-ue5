@@ -58,6 +58,8 @@ void ACombatPlayer::BeginPlay()
 	}
 
 	PlayerAnim = Cast<UCombatPlayerAnimInstance>(GetMesh()->GetAnimInstance());
+
+	
 	
 }
 
