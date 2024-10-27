@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "TraceComponent.generated.h"
 
+class UAnimMontage;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class GAMEPLAYMECHANICS_API UTraceComponent : public UActorComponent
@@ -26,6 +27,11 @@ class GAMEPLAYMECHANICS_API UTraceComponent : public UActorComponent
 
 	UPROPERTY(EditAnywhere)
 	double BoxCollisionLength { 30.f };
+
+	UPROPERTY(EditAnywhere)
+	bool bDebugMode { false };
+
+	
 	
 public:	
 	// Sets default values for this component's properties
