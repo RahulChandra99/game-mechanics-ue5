@@ -21,7 +21,7 @@ class GAMEPLAYMECHANICS_API UHitmanSplashScreen : public UUserWidget
 {
 	GENERATED_BODY()
 
-public:
+protected:
 	UPROPERTY(meta=(BindWidget)) UCanvasPanel* CanvasPanelMain;
 	UPROPERTY(meta=(BindWidget)) UImage* BackgroundImg;
 	UPROPERTY(meta=(BindWidget)) UHorizontalBox* TitleHB;
@@ -33,4 +33,13 @@ public:
 	UPROPERTY(meta=(BindWidget)) UHorizontalBox* NextButtonContainerHB;
 	UPROPERTY(meta=(BindWidget)) UTextBlock* ContinueTB;
 	UPROPERTY(meta=(BindWidget)) UButton* NextBtn;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+	class UAudioComponent* BackgroundMusicAC;
+
+	UFUNCTION()
+	void NextBtnClicked();
+
+public:
+	UHitmanSplashScreen();	
 };
