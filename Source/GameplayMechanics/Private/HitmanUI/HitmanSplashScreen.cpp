@@ -1,23 +1,15 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "HitmanUI/HitmanSplashScreen.h"
-
-#include "Components/AudioComponent.h"
 #include "Components/Button.h"
 
-
-
-UHitmanSplashScreen::UHitmanSplashScreen()
+void UHitmanSplashScreen::NativeConstruct()
 {
-	if(NextBtn)
+	Super::NativeConstruct();
+
+	// Ensure that NextBtn is valid before binding
+	if (NextBtn)
 	{
 		NextBtn->OnClicked.AddDynamic(this, &UHitmanSplashScreen::NextBtnClicked);
 	}
-
-
-	//BackgroundMusicAC->Sound = 
-
 }
 
 void UHitmanSplashScreen::NextBtnClicked()

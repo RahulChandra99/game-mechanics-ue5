@@ -1,14 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "HitmanSplashScreen.generated.h"
 
-/**
- * 
- */
 class UCanvasPanel;
 class UImage;
 class UHorizontalBox;
@@ -22,6 +17,7 @@ class GAMEPLAYMECHANICS_API UHitmanSplashScreen : public UUserWidget
 	GENERATED_BODY()
 
 protected:
+	// Bind Widget properties
 	UPROPERTY(meta=(BindWidget)) UCanvasPanel* CanvasPanelMain;
 	UPROPERTY(meta=(BindWidget)) UImage* BackgroundImg;
 	UPROPERTY(meta=(BindWidget)) UHorizontalBox* TitleHB;
@@ -34,12 +30,10 @@ protected:
 	UPROPERTY(meta=(BindWidget)) UTextBlock* ContinueTB;
 	UPROPERTY(meta=(BindWidget)) UButton* NextBtn;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
-	class UAudioComponent* BackgroundMusicAC;
-
+	// Button click function
 	UFUNCTION()
 	void NextBtnClicked();
 
-public:
-	UHitmanSplashScreen();	
+	// Override NativeConstruct
+	virtual void NativeConstruct() override;
 };
