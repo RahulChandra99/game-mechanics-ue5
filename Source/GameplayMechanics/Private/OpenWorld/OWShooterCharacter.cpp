@@ -37,6 +37,8 @@ AOWShooterCharacter::AOWShooterCharacter()
 }
 
 
+
+
 // Called when the game starts or when spawned
 void AOWShooterCharacter::BeginPlay()
 {
@@ -66,6 +68,8 @@ void AOWShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
 	PlayerInputComponent->BindAction(TEXT("Jump"),IE_Pressed,this,&AOWShooterCharacter::StartJump);
 	PlayerInputComponent->BindAction(TEXT("Jump"),IE_Released,this,&AOWShooterCharacter::StopJump);
+	PlayerInputComponent->BindAction(TEXT("Shoot"),IE_Pressed,this,&AOWShooterCharacter::CharacterShoot);
+	//PlayerInputComponent->BindAction(TEXT("Shoot"),IE_Released,this,&AOWShooterCharacter::StopJump);
 }
 
 
@@ -109,4 +113,8 @@ void AOWShooterCharacter::StopJump()
 	ACharacter::StopJumping();
 }
 
+void AOWShooterCharacter::CharacterShoot()
+{
+	GunSpawn->GunShoot();
+}
 

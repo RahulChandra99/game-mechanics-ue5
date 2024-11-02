@@ -2,6 +2,7 @@
 
 
 #include "OpenWorld/OWGunActor.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AOWGunActor::AOWGunActor()
@@ -22,7 +23,6 @@ void AOWGunActor::BeginPlay()
 	Super::BeginPlay();
 
 	
-	
 }
 
 // Called every frame
@@ -30,5 +30,35 @@ void AOWGunActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AOWGunActor::GunShoot()
+{
+	UGameplayStatics::SpawnEmitterAttached(GunPS, GunMesh, TEXT("Muzzle"));
+	
+	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+	if(OwnerPawn == nullptr) return;
+
+	AController* OwnerController = OwnerPawn->GetController();
+	if(OwnerController == nullptr) return;
+
+	FVector Location;
+	FRotator Rotation;
+	OwnerController->GetPlayerViewPoint(Location, Rotation);
+
+	FVector End = Location + Rotation.Vector() * MaxRange;
+
+	FHitResult Hit;
+	bool bSuccess = GetWorld()->LineTraceSingleByChannel(
+		Hit,
+		Location,
+		End,
+		ECC_GameTraceChannel3
+	);
+
+	if(bSuccess)
+	{
+		DrawDebugPoint(GetWorld(),Hit.Location,20.f,FColor::Red,true);
+	}
 }
 

@@ -11,11 +11,7 @@ class GAMEPLAYMECHANICS_API AOWGunActor : public AActor
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere)
-	USkeletalMeshComponent* GunMesh;
 
-	USceneComponent* RootComp;
-	
 public:	
 	// Sets default values for this actor's properties
 	AOWGunActor();
@@ -27,5 +23,23 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
+
+private:
+	UPROPERTY(EditAnywhere)
+	USkeletalMeshComponent* GunMesh;
+
+	UPROPERTY(EditAnywhere)
+	USceneComponent* RootComp;
+
+	UPROPERTY(EditAnywhere)
+	class UParticleSystem* GunPS;
+
+	UPROPERTY(EditAnywhere)
+	float MaxRange = 1000;
+	
+public:
+	void GunShoot();
+	
 
 };

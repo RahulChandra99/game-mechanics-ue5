@@ -26,6 +26,8 @@ private:
 	UPROPERTY(EditAnywhere,Category="Gun")
 	TSubclassOf<AOWGunActor> GunBPActor;
 
+	void CharacterShoot();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
