@@ -13,20 +13,7 @@ class GAMEPLAYMECHANICS_API AOWShooterCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-private:
-	void MoveForward(float Value);
-	void MoveRight(float Value);
-	void LookUp(float Value);
-	void LookRight(float Value);
-	void StartJump();
-	void StopJump();
 
-	AOWGunActor* GunSpawn;
-
-	UPROPERTY(EditAnywhere,Category="Gun")
-	TSubclassOf<AOWGunActor> GunBPActor;
-
-	void CharacterShoot();
 
 protected:
 	// Called when the game starts or when spawned
@@ -47,5 +34,31 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+private:
+	void MoveForward(float Value);
+	void MoveRight(float Value);
+	void LookUp(float Value);
+	void LookRight(float Value);
+	void StartJump();
+	void StopJump();
 
+	AOWGunActor* GunSpawn;
+
+	UPROPERTY(EditAnywhere,Category="Gun")
+	TSubclassOf<AOWGunActor> GunBPActor;
+
+	void CharacterShoot();
+
+	UPROPERTY(EditDefaultsOnly)
+	float MaxHealth = 100.f;
+	float CurrentHealth;
+
+	
+	
+public:
+
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+
+	UFUNCTION(BlueprintPure)
+	bool IsDead() const;
 };

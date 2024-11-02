@@ -2,6 +2,8 @@
 
 
 #include "OpenWorld/OWGunActor.h"
+
+#include "Engine/DamageEvents.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -34,7 +36,7 @@ void AOWGunActor::Tick(float DeltaTime)
 
 void AOWGunActor::GunShoot()
 {
-	UGameplayStatics::SpawnEmitterAttached(GunPS, GunMesh, TEXT("Muzzle"));
+	UGameplayStatics::SpawnEmitterAttached(GunMuzzle, GunMesh, TEXT("Muzzle"));
 	
 	APawn* OwnerPawn = Cast<APawn>(GetOwner());
 	if(OwnerPawn == nullptr) return;
@@ -58,7 +60,23 @@ void AOWGunActor::GunShoot()
 
 	if(bSuccess)
 	{
-		DrawDebugPoint(GetWorld(),Hit.Location,20.f,FColor::Red,true);
+		FVector ShotDirection = -Rotation.Vector();
+		UGameplayStatics::SpawnEmitterAtLocation(
+			GetWorld(),
+			GunImpactEffect,
+			Hit.Location,
+			ShotDirection.Rotation()
+		);
+
+		FPointDamageEvent DamageEvent(10.f, Hit,ShotDirection, nullptr );
+
+		AActor* HitActor = Hit.GetActor();
+
+		if(HitActor)
+		{
+			HitActor->TakeDamage(10.f,DamageEvent,OwnerController,this);
+		}
 	}
+			
 }
 

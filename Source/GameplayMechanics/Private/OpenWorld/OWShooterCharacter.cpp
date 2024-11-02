@@ -47,6 +47,8 @@ void AOWShooterCharacter::BeginPlay()
 	GunSpawn = GetWorld()->SpawnActor<AOWGunActor>(GunBPActor);
 	GunSpawn->AttachToComponent(GetMesh(),FAttachmentTransformRules::KeepRelativeTransform, TEXT("gun_socket_r"));
 	GunSpawn->SetOwner(this);
+
+	CurrentHealth = MaxHealth;
 }
 
 // Called every frame
@@ -118,3 +120,23 @@ void AOWShooterCharacter::CharacterShoot()
 	GunSpawn->GunShoot();
 }
 
+
+
+float AOWShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
+                                      AActor* DamageCauser)
+{
+	float AppliedDamage =  Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	AppliedDamage = FMath::Min(CurrentHealth,AppliedDamage);
+	CurrentHealth -= AppliedDamage;
+
+	UE_LOG(LogTemp,Warning,TEXT("%f"),CurrentHealth);
+	
+	return AppliedDamage;
+	
+}
+
+bool AOWShooterCharacter::IsDead() const
+{
+	return CurrentHealth <= 0.f;
+}

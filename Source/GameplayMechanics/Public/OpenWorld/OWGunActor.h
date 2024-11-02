@@ -33,10 +33,13 @@ private:
 	USceneComponent* RootComp;
 
 	UPROPERTY(EditAnywhere)
-	class UParticleSystem* GunPS;
+	class UParticleSystem* GunMuzzle;
 
 	UPROPERTY(EditAnywhere)
 	float MaxRange = 1000;
+
+	UPROPERTY(EditAnywhere)
+	class UParticleSystem* GunImpactEffect;
 	
 public:
 	void GunShoot();
