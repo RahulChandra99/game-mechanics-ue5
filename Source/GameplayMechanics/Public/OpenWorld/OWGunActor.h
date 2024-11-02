@@ -10,6 +10,11 @@ UCLASS()
 class GAMEPLAYMECHANICS_API AOWGunActor : public AActor
 {
 	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere)
+	USkeletalMeshComponent* GunMesh;
+
+	USceneComponent* RootComp;
 	
 public:	
 	// Sets default values for this actor's properties

@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "OWShooterCharacter.generated.h"
 
+class AOWGunActor;
+
 UCLASS()
 class GAMEPLAYMECHANICS_API AOWShooterCharacter : public ACharacter
 {
@@ -18,6 +20,11 @@ private:
 	void LookRight(float Value);
 	void StartJump();
 	void StopJump();
+
+	AOWGunActor* GunSpawn;
+
+	UPROPERTY(EditAnywhere,Category="Gun")
+	TSubclassOf<AOWGunActor> GunBPActor;
 
 protected:
 	// Called when the game starts or when spawned

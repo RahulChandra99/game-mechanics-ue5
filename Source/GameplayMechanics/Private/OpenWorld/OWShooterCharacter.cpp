@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "OpenWorld/OWGunActor.h"
 
 // Sets default values
 AOWShooterCharacter::AOWShooterCharacter()
@@ -40,7 +41,10 @@ AOWShooterCharacter::AOWShooterCharacter()
 void AOWShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	GunSpawn = GetWorld()->SpawnActor<AOWGunActor>(GunBPActor);
+	GunSpawn->AttachToComponent(GetMesh(),FAttachmentTransformRules::KeepRelativeTransform, TEXT("gun_socket_r"));
+	GunSpawn->SetOwner(this);
 }
 
 // Called every frame
