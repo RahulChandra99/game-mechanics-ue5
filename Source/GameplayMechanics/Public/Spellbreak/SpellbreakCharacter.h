@@ -28,10 +28,21 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	class UCameraComponent* CameraComponent;
 
+	UPROPERTY(VisibleAnywhere)
+	class UInteractionComponent* InteractionComponent;
+
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	
 	void PrimaryAttack();
+	void PrimaryInteract();
+
+	UPROPERTY(EditAnywhere, Category="Attack")
+	UAnimMontage* AttackAnimMontage;
+
+	FTimerHandle TimerHandle_PrimaryAttack;
+
+	void PrimaryAttack_TimeElapsed();
 	
 public:	
 	// Called every frame

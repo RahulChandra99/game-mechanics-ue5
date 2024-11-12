@@ -12,15 +12,9 @@ UCLASS()
 class GAMEPLAYMECHANICS_API AItemChest : public AActor, public IGameplayInterface
 {
 	GENERATED_BODY()
-
-	void Interact_Implementation(APawn* InstigatorPawn);
 	
-public:	
-	// Sets default values for this actor's properties
-	AItemChest();
-
-	UPROPERTY(EditAnywhere)
-	float TargetPitch;
+private:
+	void Interact_Implementation(APawn* InstigatorPawn);
 
 protected:
 	// Called when the game starts or when spawned
@@ -32,8 +26,14 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	class UStaticMeshComponent* LidMesh;
 
-public:	
+public:
+	// Sets default values for this actor's properties
+	AItemChest();
+	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(EditAnywhere)
+	float TargetPitch;
 
 };

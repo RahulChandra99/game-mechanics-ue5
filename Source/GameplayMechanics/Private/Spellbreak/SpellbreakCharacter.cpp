@@ -6,6 +6,9 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Spellbreak/InteractionComponent.h"
+
+#include "QuickDebug.h"
 
 // Sets default values
 ASpellbreakCharacter::ASpellbreakCharacter()
@@ -23,6 +26,8 @@ ASpellbreakCharacter::ASpellbreakCharacter()
 	CameraComponent->SetupAttachment(SpringArmComponent);
 	
 	bUseControllerRotationYaw = false;
+
+	InteractionComponent = CreateDefaultSubobject<UInteractionComponent>("InteractionComp");
 
 }
 
@@ -53,18 +58,8 @@ void ASpellbreakCharacter::MoveRight(float Value)
 	AddMovementInput(RightVector,Value);
 }
 
-void ASpellbreakCharacter::PrimaryAttack()
-{
-	
-	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
-	
-	FTransform SpawnTM = FTransform(GetControlRotation(), HandLocation);
 
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	
-	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
-}
+
 
 // Called every frame
 void ASpellbreakCharacter::Tick(float DeltaTime)
@@ -85,5 +80,37 @@ void ASpellbreakCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	PlayerInputComponent->BindAxis("LookUp",this,&APawn::AddControllerPitchInput);
 
 	PlayerInputComponent->BindAction("Shoot",IE_Pressed,this,&ASpellbreakCharacter::PrimaryAttack);
+
+	PlayerInputComponent->BindAction("Interact",IE_Pressed,this,&ASpellbreakCharacter::PrimaryInteract);
+
+}
+
+void ASpellbreakCharacter::PrimaryAttack()
+{
+	PlayAnimMontage(AttackAnimMontage);
+
+	GetWorldTimerManager().SetTimer(TimerHandle_PrimaryAttack, this, &ASpellbreakCharacter::PrimaryAttack_TimeElapsed,0.2f);
+	//GetWorldTimerManager().ClearTimer(TimerHandle_PrimaryAttack);
+	
+	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+	
+	FTransform SpawnTM = FTransform(GetControlRotation(), HandLocation);
+
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	
+	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
+}
+
+void ASpellbreakCharacter::PrimaryAttack_TimeElapsed()
+{
+	
+}
+
+void ASpellbreakCharacter::PrimaryInteract()
+{
+	if(!InteractionComponent) return;
+	
+	InteractionComponent->PrimaryInteract();
 }
 
