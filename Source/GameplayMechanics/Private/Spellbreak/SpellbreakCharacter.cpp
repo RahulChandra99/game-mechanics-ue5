@@ -19,11 +19,14 @@ ASpellbreakCharacter::ASpellbreakCharacter()
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("SpringArmComp");
 	SpringArmComponent->bUsePawnControlRotation = true;
 	SpringArmComponent->SetupAttachment(RootComponent);
+	SpringArmComponent->TargetArmLength = 250.f;
+	SpringArmComponent->SocketOffset = FVector(0.f,90.f,0.f);
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComp");
 	CameraComponent->SetupAttachment(SpringArmComponent);
+	
 	
 	bUseControllerRotationYaw = false;
 
@@ -88,9 +91,14 @@ void ASpellbreakCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 void ASpellbreakCharacter::PrimaryAttack()
 {
 	PlayAnimMontage(AttackAnimMontage);
-
+	
 	GetWorldTimerManager().SetTimer(TimerHandle_PrimaryAttack, this, &ASpellbreakCharacter::PrimaryAttack_TimeElapsed,0.2f);
 	//GetWorldTimerManager().ClearTimer(TimerHandle_PrimaryAttack);
+}
+
+void ASpellbreakCharacter::PrimaryAttack_TimeElapsed()
+{
+	
 	
 	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
 	
@@ -98,13 +106,9 @@ void ASpellbreakCharacter::PrimaryAttack()
 
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	SpawnParams.Instigator = this;
 	
 	GetWorld()->SpawnActor<AActor>(ProjectileClass, SpawnTM, SpawnParams);
-}
-
-void ASpellbreakCharacter::PrimaryAttack_TimeElapsed()
-{
-	
 }
 
 void ASpellbreakCharacter::PrimaryInteract()
